@@ -1,0 +1,14 @@
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ .Chart.Name }}-hpa
+spec:
+  maxReplicas: {{ .Values.hpa.maxReplicas }} # define max replica count
+  minReplicas: {{ .Values.hpa.minReplicas }}  # define min replica count -- max 20 with 2 nodes b2stype
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ .Chart.Name }}
+  targetCPUUtilizationPercentage: 50 # target CPU utilization
+---

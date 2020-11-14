@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    app: {{ .Chart.Name }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Chart.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+    spec:
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}/{{.Chart.Name }}:{{ .Values.buildID }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: 8080
+          name: http
+        resources:
+{{ toYaml .Values.resources | indent 12 }}
+        env:
+        - name: SHOWDETAILS
+          value: "true"
+        - name: FEATUREFLAG
+          value: "true"
+        - name: MYSQL_HOST
+          value: "voting-storage"
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: voting-storage-secret
+              key: MYSQL_USER
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: voting-storage-secret
+              key: MYSQL_PASSWORD
+        - name: MYSQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: voting-storage-secret
+              key: MYSQL_DATABASE
+        - name: ANALYTICS_HOST
+          value: "voting-analytics"

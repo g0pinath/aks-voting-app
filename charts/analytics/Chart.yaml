@@ -1,0 +1,4 @@
+apiVersion: v1
+description: voting analytics
+Name: voting-analytics
+Version: v0.1.0

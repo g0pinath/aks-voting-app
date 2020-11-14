@@ -1,0 +1,18 @@
+replicaCount: 1
+image:
+  useImagePullSecrets: false
+  pullPolicy: Always
+  repository: aksdevacrae01.azurecr.io
+service:
+  redisPort: 6379
+  mysqlPort: 3306
+ingress:
+  enabled: false
+  basedomain: cloudkube.xyz # replace with your own from the portal
+hpa:
+  maxReplicas: 2
+  minReplicas: 1
+envVars:
+  MYSQL_ROOT_PASSWORD: Random@2020
+  MYSQL_RANDOM_ROOT_PASSWORD: Random@2020
+buildID: latest

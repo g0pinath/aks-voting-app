@@ -1,0 +1,4 @@
+apiVersion: v1
+description: voting storage
+Name: voting-storage
+Version: v0.1.0

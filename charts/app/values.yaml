@@ -1,0 +1,15 @@
+replicaCount: 1
+image:
+  useImagePullSecrets: false
+  pullPolicy: Always
+  repository: aksdevacrae01.azurecr.io
+service:
+  internalPort: 8080
+  externalPort: 8080
+ingress:
+  enabled: true
+  basedomain: cloudkube.xyz # replace with your own from the portal
+hpa:
+  maxReplicas: 2
+  minReplicas: 1
+#buildID: latest
